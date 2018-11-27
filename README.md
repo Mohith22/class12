@@ -61,7 +61,9 @@ of elements of some type parameter `'a`, Scala provides a type
 ### A Generic Functional Queue Implementation
 
 We study Scala generics by implementing a generic functional queue
-data structure similar to the one [we implemented in OCaml](). The
+data structure similar to the
+one
+[we implemented in OCaml](https://github.com/nyu-pl-fa18/class10/#ocamls-module-system). The
 following discussion builds on Ch. 19 of OSV, so I encourage you to
 read that chapter for additional details. Though, we will cover some
 orthogonal aspects of generics that are not covered in the book.
