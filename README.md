@@ -86,10 +86,10 @@ structures are therefore also called *persistent*. This design choice
 suggests the following signature for our `Queue` class:
 
 ```scala
-abstract class Queue[T] {
-  def enqueue(x: T): Queue[T]
+abstract class AbstractQueue[T] {
+  def enqueue(x: T): AbstractQueue[T]
 
-  def dequeue: (T, Queue[T])
+  def dequeue: (T, AbstractQueue[T])
 
   def isEmpty: Boolean
 }
@@ -139,12 +139,13 @@ class. As a consequence, only instances of class `Queue` and its
 companion object can construct `Queue` instances directly.
 
 In the implementation of `enqueue`, the expression `queue :+ x`
-creates a new list by appending `x` at the end of the list
-`queue`. The implementation of `dequeue` first ensures that the queue
-is non-empty and then decomposes `queue` into its head `x` and tail
-`queue1` using pattern matching and then returns `x` and the new
-`Queue` instance holding `queue1`. The implementation of `isEmpty`
-simply delegates the emptiness check to the list `queue`.
+creates a new list by appending `x` at the end of the list `queue`,
+leaving `queue` itself unchanged. The implementation of `dequeue`
+first ensures that the queue is non-empty and then decomposes `queue`
+into its head `x` and tail `queue1` using pattern matching and then
+returns `x` and the new `Queue` instance holding `queue1`. The
+implementation of `isEmpty` simply delegates the emptiness check to
+the list `queue`.
 
 The companion object then provides two factory methods for
 constructing queues to hide the queue's internal representation:
