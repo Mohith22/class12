@@ -611,7 +611,7 @@ object Queue {
   ...
   
   class SillyQueue extends Queue[String](Nil) {
-    override def enqueue(x: Int): Queue[String] = {
+    override def enqueue(x: String): Queue[String] = {
       println(x.length) // relies on x being of type String
       super.enqueue(x) // delegate actual work to superclass
     } 
