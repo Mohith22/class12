@@ -289,10 +289,17 @@ Scala compiler takes a middle way between the two approaches.
 ### Variance
 
 Next, we will study how generics relate to subtyping. For instance,
-suppose we have the types `Duck` and `Bird` where `Duck` is a subtype
-of `Bird`. If we have a queue instance of type `Queue[Duck]`, can we
-also use it in situations where we need an instance of type
-`Queue[Bird]`? That is, is `Queue[Duck]` a subtype of `Queue[Bird]`?
+suppose we have the types `Duck`, `Sparrow`, and `Bird` where `Duck`
+and `Sparrow` are subtypes of `Bird`. If we have a queue instance of
+type `Queue[Duck]`, can we also use it in situations where we need an
+instance of type `Queue[Bird]`? That is, is `Queue[Duck]` a subtype of
+`Queue[Bird]`? If that's the case, then for example the following code
+would be OK:
+
+```scala
+val ducks: Queue[Duck] = Queue(new Duck)
+val birds: Queue[Bird] = ducks.enqueue(new Sparrow)
+```
 
 More generally, suppose we have a generic class `C[T]` that
 parameterizes over a type parameter `T`. Suppose further that we have
