@@ -1,7 +1,7 @@
-class Cell[T](private var content: T) {
-  def read: T = content
+class Cell[A](private var content: A) {
+  def read: A = content
   
- def write(x: T): Unit = {
+ def write(x: A): Unit = {
     content = x
  }
 }

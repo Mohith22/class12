@@ -1,15 +1,15 @@
-class Queue[+T] private (private[this] val queue: List[T]) {
+class Queue[+A] private (private[this] val queue: List[A]) {
   
-  def enqueue[U >: T](x: U) = {
-    new Queue[U](queue :+ x)
+  def enqueue[B >: A](x: B) = {
+    new Queue[B](queue :+ x)
   }
 
-  def head: T = {
+  def head: A = {
     require(!isEmpty, "Queue.head on empty queue")
     queue.last
   }
   
-  def dequeue: (T, Queue[T]) = {
+  def dequeue: (A, Queue[A]) = {
     require(!isEmpty, "Queue.dequeue on empty queue")
     val x :: queue1 = queue
     (x, new Queue(queue1))
@@ -23,9 +23,9 @@ class Queue[+T] private (private[this] val queue: List[T]) {
 }
 
 object Queue {
-  def empty[T]: Queue[T] = new Queue(Nil)
+  def empty[A]: Queue[A] = new Queue(Nil)
 
-  def apply[T](xs: T*): Queue[T] = new Queue(xs.toList)
+  def apply[A](xs: A*): Queue[A] = new Queue(xs.toList)
 }
 
 object QueueTest extends App {
