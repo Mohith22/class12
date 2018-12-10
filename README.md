@@ -364,7 +364,7 @@ val q: Queue[Any] = Queue[Any](1) // OK because Int <: Any
 val qs: Queue[String] = q // OK because String <: Any and Queue is
                           // supposedly contravariant, i.e. Queue[Any] <: Queue[String]
 
-val (s: String, _) = q1.dequeue // OK because q1 is of type Queue[String]
+val (s: String, _) = qs.dequeue // OK because qs is of type Queue[String]
 s.charAt(0) // bzzzz! would try to call method charAt on an Int
 ```
 
