@@ -510,19 +510,31 @@ is problematic, consider the following client code. This code would be
 well typed if we allowed `Cell` to be covariant in `A`:
 
 ```scala
-val c = new Cell("Hello")
+val c: Cell[String] = new Cell("Hello")
 val c1: Cell[Any] = c // OK because String <: Any and Cell is covariant
-c1.write(1) // OK because c1 is of type Cell[Any]
+c1.write(1) // OK because c1 is of type Cell[Any] and 1: Int <: Any
 c.read.charAt(0) // OK because c: Cell[String] and hence c.read: String
 ```
 
 However, if we executed this code, then the third line would modify
-the contents of cell `c` since `c` and `c1` alias the same
-instance. Thus, we would be calling `charAt` on an `Any` instance
-in the last line, a method that does not exist in `Any`.
+the contents of cell `c` since `c` and `c1` alias the same instance,
+writing a boxed `Int` value `1` into the `contents` field of that
+`Cell` instance. Thus, on the fourth line we would be trying to call
+`charAt` on that boxed `Int` instance in the last line. However, `Int`
+has no such method. So when we would execute the usual instructions
+for a vtable look-up, in the best case, we would jump to a completely
+different method that happens to have its pointer stored in the same
+vtable slot as `charAt` in `String`'s vtable and then start executing
+that method. In the worst case, we would do an out of bounds read on
+the vtable and jump to some random address in memory, starting to
+interpret the data stored at that point as if it were the instructions
+of a method.
 
-If we remove the method `write` from `Cell` so that values of type `A`
-can only be read but not written, then `Cell` becomes covariant in
+Note that this situation is purely hypothetical. The compiler won't
+actually allow us to execute this code. It will refuse to compile the
+class `Cell` with a covariant type parameter `A`. However, if we
+remove the method `write` from `Cell` so that values of type `A` can
+only be read but not written, then `Cell` can be made covariant in
 `A`. Thus, the following code compiles:
 
 ```scala
